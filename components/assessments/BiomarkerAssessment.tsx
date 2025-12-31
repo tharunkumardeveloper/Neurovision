@@ -34,8 +34,8 @@ export default function BiomarkerAssessment({ data, setData }: BiomarkerAssessme
         const biomarkers = getBiomarkerData(selectedPatient.id)
         setFormData({
           ...formData,
-          abeta: biomarkers.abeta,
-          ptau: biomarkers.ptau,
+          abeta: biomarkers.abeta42_40_ratio,
+          ptau: biomarkers.ptau181,
           nfl: biomarkers.nfl
         })
       } else {
