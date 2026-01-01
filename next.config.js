@@ -1,13 +1,13 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  swcMinify: true,
-  eslint: {
-    // Disable ESLint during builds to avoid blocking deployment
-    ignoreDuringBuilds: true,
-  },
   images: {
-    domains: ['via.placeholder.com'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'via.placeholder.com',
+      },
+    ],
     unoptimized: true
   },
   experimental: {
@@ -15,19 +15,15 @@ const nextConfig = {
   },
   // Optimize for static export if needed
   trailingSlash: true,
-  // Handle large static assets
-  webpack: (config) => {
-    config.module.rules.push({
-      test: /\.(png|jpe?g|gif|svg)$/,
-      use: {
-        loader: 'file-loader',
-        options: {
-          publicPath: '/_next/static/images/',
-          outputPath: 'static/images/',
-        },
+  // Use Turbopack configuration instead of webpack
+  turbopack: {
+    root: __dirname,
+    rules: {
+      '*.svg': {
+        loaders: ['@svgr/webpack'],
+        as: '*.js',
       },
-    });
-    return config;
+    },
   },
 }
 
