@@ -220,7 +220,7 @@ export function validateMRIFile(file: File): { valid: boolean; error?: string } 
   if (!validTypes.includes(file.type) && !file.name.toLowerCase().endsWith('.dcm')) {
     return {
       valid: false,
-      error: 'Please upload a valid MRI image file (JPEG, PNG, or DICOM)'
+      error: 'Please upload a valid image file (JPEG, PNG, or DICOM)'
     }
   }
   
@@ -237,16 +237,184 @@ export function validateMRIFile(file: File): { valid: boolean; error?: string } 
   if (file.size < 1024) {
     return {
       valid: false,
-      error: 'File appears to be too small to be a valid MRI image'
+      error: 'File appears to be too small to be a valid image'
     }
   }
   
   return { valid: true }
 }
 
+// Enhanced validation to check if image is likely an MRI scan
+export async function validateMRIImageContent(file: File): Promise<{ valid: boolean; error?: string }> {
+  return new Promise((resolve) => {
+    const img = new Image()
+    const canvas = document.createElement('canvas')
+    const ctx = canvas.getContext('2d')
+    
+    img.onload = () => {
+      try {
+        // Set canvas size
+        canvas.width = img.width
+        canvas.height = img.height
+        
+        if (!ctx) {
+          resolve({
+            valid: false,
+            error: 'Unable to analyze image content. Please try a different image.'
+          })
+          return
+        }
+        
+        // Draw image to canvas
+        ctx.drawImage(img, 0, 0)
+        
+        // Get image data
+        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height)
+        const data = imageData.data
+        
+        // Analyze image characteristics
+        const analysis = analyzeImageForMRI(data, canvas.width, canvas.height)
+        
+        if (!analysis.isMRILike) {
+          resolve({
+            valid: false,
+            error: 'This image does not appear to be an MRI scan. Please upload a proper MRI brain image (grayscale medical scan).'
+          })
+        } else {
+          resolve({ valid: true })
+        }
+      } catch (error) {
+        resolve({
+          valid: false,
+          error: 'Unable to analyze image content. Please try a different image.'
+        })
+      }
+    }
+    
+    img.onerror = () => {
+      resolve({
+        valid: false,
+        error: 'Unable to load image. Please check the file format and try again.'
+      })
+    }
+    
+    // Create object URL for the image
+    const objectURL = URL.createObjectURL(file)
+    img.src = objectURL
+    
+    // Clean up object URL after a timeout
+    setTimeout(() => {
+      URL.revokeObjectURL(objectURL)
+    }, 10000)
+  })
+}
+
+// Analyze image characteristics to determine if it's MRI-like
+function analyzeImageForMRI(data: Uint8ClampedArray, width: number, height: number): { isMRILike: boolean; confidence: number } {
+  const totalPixels = width * height
+  let grayscalePixels = 0
+  let darkPixels = 0
+  let brightPixels = 0
+  let colorfulPixels = 0
+  
+  // Sample every 4th pixel for performance (still gives good accuracy)
+  for (let i = 0; i < data.length; i += 16) { // Skip 4 pixels each time (4 * 4 bytes)
+    const r = data[i]
+    const g = data[i + 1]
+    const b = data[i + 2]
+    
+    // Check if pixel is grayscale (R, G, B values are similar)
+    const maxDiff = Math.max(Math.abs(r - g), Math.abs(g - b), Math.abs(r - b))
+    if (maxDiff < 30) { // Tolerance for grayscale
+      grayscalePixels++
+    } else {
+      colorfulPixels++
+    }
+    
+    // Check brightness levels
+    const brightness = (r + g + b) / 3
+    if (brightness < 50) {
+      darkPixels++
+    } else if (brightness > 200) {
+      brightPixels++
+    }
+  }
+  
+  const sampledPixels = Math.floor(totalPixels / 4)
+  const grayscaleRatio = grayscalePixels / sampledPixels
+  const darkRatio = darkPixels / sampledPixels
+  const brightRatio = brightPixels / sampledPixels
+  const colorfulRatio = colorfulPixels / sampledPixels
+  
+  // MRI characteristics:
+  // - Mostly grayscale (medical images are typically grayscale)
+  // - Good contrast (mix of dark and bright areas)
+  // - Not too colorful (medical scans are not colorful photos)
+  // - Reasonable aspect ratio (brain scans are roughly square-ish)
+  
+  const aspectRatio = Math.max(width, height) / Math.min(width, height)
+  
+  let confidence = 0
+  let reasons: string[] = []
+  
+  // Check grayscale ratio (MRI should be mostly grayscale)
+  if (grayscaleRatio > 0.7) {
+    confidence += 0.4
+    reasons.push('mostly grayscale')
+  } else if (grayscaleRatio < 0.3) {
+    confidence -= 0.3
+    reasons.push('too colorful for MRI')
+  }
+  
+  // Check if it has medical-like contrast
+  if (darkRatio > 0.2 && brightRatio > 0.1) {
+    confidence += 0.3
+    reasons.push('good contrast')
+  }
+  
+  // Penalize if too colorful (like photos)
+  if (colorfulRatio > 0.5) {
+    confidence -= 0.4
+    reasons.push('too many colored pixels')
+  }
+  
+  // Check aspect ratio (brain scans are usually not extremely rectangular)
+  if (aspectRatio < 2.0) {
+    confidence += 0.2
+    reasons.push('reasonable aspect ratio')
+  } else {
+    confidence -= 0.2
+    reasons.push('unusual aspect ratio for brain scan')
+  }
+  
+  // Check resolution (MRI scans are usually decent resolution)
+  if (totalPixels > 50000) { // At least ~224x224
+    confidence += 0.1
+    reasons.push('adequate resolution')
+  }
+  
+  // Final decision
+  const isMRILike = confidence > 0.3
+  
+  console.log('MRI Analysis:', {
+    grayscaleRatio: grayscaleRatio.toFixed(2),
+    darkRatio: darkRatio.toFixed(2),
+    brightRatio: brightRatio.toFixed(2),
+    colorfulRatio: colorfulRatio.toFixed(2),
+    aspectRatio: aspectRatio.toFixed(2),
+    confidence: confidence.toFixed(2),
+    isMRILike,
+    reasons
+  })
+  
+  return { isMRILike, confidence }
+}
+
 // Get processing status messages
 export function getProcessingStatus(elapsedTime: number): string {
-  if (elapsedTime < 1000) {
+  if (elapsedTime < 500) {
+    return 'Validating image content...'
+  } else if (elapsedTime < 1000) {
     return 'Initializing model...'
   } else if (elapsedTime < 2000) {
     return 'Preprocessing image...'

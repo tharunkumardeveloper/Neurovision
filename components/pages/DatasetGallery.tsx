@@ -94,56 +94,61 @@ export default function DatasetGallery() {
   }
 
   return (
-    <div className="max-w-7xl mx-auto">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       {/* Header */}
-      <div className="text-center mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-4">
+      <div className="text-center mb-6 sm:mb-8">
+        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2 sm:mb-4">
           Dataset Gallery
         </h1>
-        <p className="text-lg text-gray-600">
+        <p className="text-base sm:text-lg text-gray-600">
           Comprehensive view of real medical datasets used in the CDSS
         </p>
       </div>
 
       {/* Category Tabs */}
-      <div className="flex items-center justify-between mb-6">
-        <div className="flex space-x-1 bg-gray-100 p-1 rounded-lg">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 sm:mb-6 space-y-4 sm:space-y-0">
+        <div className="flex flex-wrap gap-1 bg-gray-100 p-1 rounded-lg">
           <button
             onClick={() => setActiveCategory('mri')}
-            className={`flex items-center px-4 py-2 rounded-md font-medium transition-colors ${
+            className={`flex items-center px-3 sm:px-4 py-2 rounded-md font-medium transition-colors text-sm ${
               activeCategory === 'mri'
                 ? 'bg-white text-purple-600 shadow-sm'
                 : 'text-gray-600 hover:text-gray-900'
             }`}
           >
-            <Brain className="w-4 h-4 mr-2" />
-            MRI Scans ({mriImages.length})
+            <Brain className="w-4 h-4 mr-1 sm:mr-2" />
+            <span className="hidden sm:inline">MRI Scans</span>
+            <span className="sm:hidden">MRI</span>
+            <span className="ml-1">({mriImages.length})</span>
           </button>
           <button
             onClick={() => setActiveCategory('handwriting')}
-            className={`flex items-center px-4 py-2 rounded-md font-medium transition-colors ${
+            className={`flex items-center px-3 sm:px-4 py-2 rounded-md font-medium transition-colors text-sm ${
               activeCategory === 'handwriting'
                 ? 'bg-white text-orange-600 shadow-sm'
                 : 'text-gray-600 hover:text-gray-900'
             }`}
           >
-            <Activity className="w-4 h-4 mr-2" />
-            Handwriting ({handwritingImages.length})
+            <Activity className="w-4 h-4 mr-1 sm:mr-2" />
+            <span className="hidden sm:inline">Handwriting</span>
+            <span className="sm:hidden">Hand</span>
+            <span className="ml-1">({handwritingImages.length})</span>
           </button>
           <button
             onClick={() => setActiveCategory('clinical')}
-            className={`flex items-center px-4 py-2 rounded-md font-medium transition-colors ${
+            className={`flex items-center px-3 sm:px-4 py-2 rounded-md font-medium transition-colors text-sm ${
               activeCategory === 'clinical'
                 ? 'bg-white text-blue-600 shadow-sm'
                 : 'text-gray-600 hover:text-gray-900'
             }`}
           >
-            <FileText className="w-4 h-4 mr-2" />
-            Clinical Data
+            <FileText className="w-4 h-4 mr-1 sm:mr-2" />
+            <span className="hidden sm:inline">Clinical</span>
+            <span className="sm:hidden">Data</span>
           </button>
         </div>
 
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center justify-center sm:justify-end space-x-2">
           <button
             onClick={() => setViewMode('grid')}
             className={`p-2 rounded-md ${viewMode === 'grid' ? 'bg-blue-100 text-blue-600' : 'text-gray-400'}`}
@@ -161,51 +166,55 @@ export default function DatasetGallery() {
 
       {/* MRI Gallery */}
       {activeCategory === 'mri' && (
-        <div className="bg-white rounded-lg shadow-md p-6">
-          <h2 className="text-xl font-semibold mb-6 flex items-center">
-            <Brain className="w-6 h-6 text-purple-500 mr-2" />
+        <div className="bg-white rounded-lg shadow-md p-4 sm:p-6">
+          <h2 className="text-lg sm:text-xl font-semibold mb-4 sm:mb-6 flex items-center">
+            <Brain className="w-5 sm:w-6 h-5 sm:h-6 text-purple-500 mr-2" />
             MRI Brain Scan Dataset
           </h2>
           
           {viewMode === 'grid' ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
               {mriImages.map((image, index) => (
-                <div key={index} className={`border-2 rounded-lg p-4 ${getCategoryColor(image.category)}`}>
+                <div key={index} className={`border-2 rounded-lg p-3 sm:p-4 ${getCategoryColor(image.category)}`}>
                   <div className="relative group mb-3">
-                    <img 
-                      src={image.path} 
-                      alt={image.label}
-                      className="w-full h-48 object-contain rounded-md bg-white border"
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).src = `https://via.placeholder.com/200x200/4A90E2/FFFFFF?text=${image.category.slice(0,8)}`
-                      }}
-                    />
+                    <div className="w-full h-40 sm:h-48 bg-black rounded-md overflow-hidden">
+                      <img 
+                        src={image.path} 
+                        alt={image.label}
+                        className="w-full h-full object-contain"
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).src = `https://via.placeholder.com/200x200/000000/FFFFFF?text=${image.category.slice(0,8)}`
+                        }}
+                      />
+                    </div>
                     <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity rounded-md flex items-center justify-center">
-                      <Eye className="w-8 h-8 text-white" />
+                      <Eye className="w-6 sm:w-8 h-6 sm:h-8 text-white" />
                     </div>
                   </div>
                   <div className="text-center">
-                    <h3 className="font-medium text-gray-900 mb-1">{image.label}</h3>
-                    <p className="text-sm text-gray-600">{image.filename}</p>
+                    <h3 className="font-medium text-gray-900 mb-1 text-sm sm:text-base">{image.label}</h3>
+                    <p className="text-xs sm:text-sm text-gray-600 truncate">{image.filename}</p>
                   </div>
                 </div>
               ))}
             </div>
           ) : (
-            <div className="space-y-4">
+            <div className="space-y-3 sm:space-y-4">
               {mriImages.map((image, index) => (
-                <div key={index} className={`border-2 rounded-lg p-4 flex items-center space-x-4 ${getCategoryColor(image.category)}`}>
-                  <img 
-                    src={image.path} 
-                    alt={image.label}
-                    className="w-20 h-20 object-contain rounded-md bg-white border flex-shrink-0"
-                    onError={(e) => {
-                      (e.target as HTMLImageElement).src = `https://via.placeholder.com/80x80/4A90E2/FFFFFF?text=${image.category.slice(0,4)}`
-                    }}
-                  />
-                  <div className="flex-1">
-                    <h3 className="font-medium text-gray-900">{image.label}</h3>
-                    <p className="text-sm text-gray-600">{image.filename}</p>
+                <div key={index} className={`border-2 rounded-lg p-3 sm:p-4 flex items-center space-x-3 sm:space-x-4 ${getCategoryColor(image.category)}`}>
+                  <div className="w-16 sm:w-20 h-16 sm:h-20 bg-black rounded-md overflow-hidden flex-shrink-0">
+                    <img 
+                      src={image.path} 
+                      alt={image.label}
+                      className="w-full h-full object-contain"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = `https://via.placeholder.com/80x80/000000/FFFFFF?text=${image.category.slice(0,4)}`
+                      }}
+                    />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <h3 className="font-medium text-gray-900 text-sm sm:text-base">{image.label}</h3>
+                    <p className="text-xs sm:text-sm text-gray-600 truncate">{image.filename}</p>
                     <p className="text-xs text-gray-500 mt-1">Category: {image.category}</p>
                   </div>
                 </div>
@@ -217,51 +226,55 @@ export default function DatasetGallery() {
 
       {/* Handwriting Gallery */}
       {activeCategory === 'handwriting' && (
-        <div className="bg-white rounded-lg shadow-md p-6">
-          <h2 className="text-xl font-semibold mb-6 flex items-center">
-            <Activity className="w-6 h-6 text-orange-500 mr-2" />
+        <div className="bg-white rounded-lg shadow-md p-4 sm:p-6">
+          <h2 className="text-lg sm:text-xl font-semibold mb-4 sm:mb-6 flex items-center">
+            <Activity className="w-5 sm:w-6 h-5 sm:h-6 text-orange-500 mr-2" />
             Handwriting Analysis Dataset
           </h2>
           
           {viewMode === 'grid' ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
               {handwritingImages.map((image, index) => (
-                <div key={index} className={`border-2 rounded-lg p-4 ${getCategoryColor(image.condition)}`}>
+                <div key={index} className={`border-2 rounded-lg p-3 sm:p-4 ${getCategoryColor(image.condition)}`}>
                   <div className="relative group mb-3">
-                    <img 
-                      src={image.path} 
-                      alt={image.label}
-                      className="w-full h-48 object-contain rounded-md bg-white border"
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).src = `https://via.placeholder.com/200x150/${image.condition === 'AD' ? 'FF6B6B' : '4ECDC4'}/FFFFFF?text=${image.condition}+${image.task.slice(-2)}`
-                      }}
-                    />
+                    <div className="w-full h-40 sm:h-48 bg-black rounded-md overflow-hidden">
+                      <img 
+                        src={image.path} 
+                        alt={image.label}
+                        className="w-full h-full object-contain"
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).src = `https://via.placeholder.com/200x150/000000/FFFFFF?text=${image.condition}+${image.task.slice(-2)}`
+                        }}
+                      />
+                    </div>
                     <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity rounded-md flex items-center justify-center">
-                      <Eye className="w-8 h-8 text-white" />
+                      <Eye className="w-6 sm:w-8 h-6 sm:h-8 text-white" />
                     </div>
                   </div>
                   <div className="text-center">
-                    <h3 className="font-medium text-gray-900 mb-1">{image.label}</h3>
-                    <p className="text-sm text-gray-600">{image.filename}</p>
+                    <h3 className="font-medium text-gray-900 mb-1 text-sm sm:text-base">{image.label}</h3>
+                    <p className="text-xs sm:text-sm text-gray-600 truncate">{image.filename}</p>
                   </div>
                 </div>
               ))}
             </div>
           ) : (
-            <div className="space-y-4">
+            <div className="space-y-3 sm:space-y-4">
               {handwritingImages.map((image, index) => (
-                <div key={index} className={`border-2 rounded-lg p-4 flex items-center space-x-4 ${getCategoryColor(image.condition)}`}>
-                  <img 
-                    src={image.path} 
-                    alt={image.label}
-                    className="w-20 h-20 object-contain rounded-md bg-white border flex-shrink-0"
-                    onError={(e) => {
-                      (e.target as HTMLImageElement).src = `https://via.placeholder.com/80x80/${image.condition === 'AD' ? 'FF6B6B' : '4ECDC4'}/FFFFFF?text=${image.condition}`
-                    }}
-                  />
-                  <div className="flex-1">
-                    <h3 className="font-medium text-gray-900">{image.label}</h3>
-                    <p className="text-sm text-gray-600">{image.filename}</p>
+                <div key={index} className={`border-2 rounded-lg p-3 sm:p-4 flex items-center space-x-3 sm:space-x-4 ${getCategoryColor(image.condition)}`}>
+                  <div className="w-16 sm:w-20 h-16 sm:h-20 bg-black rounded-md overflow-hidden flex-shrink-0">
+                    <img 
+                      src={image.path} 
+                      alt={image.label}
+                      className="w-full h-full object-contain"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = `https://via.placeholder.com/80x80/000000/FFFFFF?text=${image.condition}`
+                      }}
+                    />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <h3 className="font-medium text-gray-900 text-sm sm:text-base">{image.label}</h3>
+                    <p className="text-xs sm:text-sm text-gray-600 truncate">{image.filename}</p>
                     <p className="text-xs text-gray-500 mt-1">Task: {image.task} | Condition: {image.condition}</p>
                   </div>
                 </div>
@@ -273,40 +286,40 @@ export default function DatasetGallery() {
 
       {/* Clinical Data */}
       {activeCategory === 'clinical' && (
-        <div className="bg-white rounded-lg shadow-md p-6">
-          <h2 className="text-xl font-semibold mb-6 flex items-center">
-            <FileText className="w-6 h-6 text-blue-500 mr-2" />
+        <div className="bg-white rounded-lg shadow-md p-4 sm:p-6">
+          <h2 className="text-lg sm:text-xl font-semibold mb-4 sm:mb-6 flex items-center">
+            <FileText className="w-5 sm:w-6 h-5 sm:h-6 text-blue-500 mr-2" />
             Clinical Dataset Information
           </h2>
           
-          <div className="grid md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
             <div>
-              <h3 className="text-lg font-medium mb-4">OASIS Dataset</h3>
+              <h3 className="text-base sm:text-lg font-medium mb-3 sm:mb-4">OASIS Dataset</h3>
               <div className="space-y-3">
-                <div className="p-4 border border-gray-200 rounded-lg">
-                  <h4 className="font-medium text-gray-800">Cross-sectional Data</h4>
-                  <p className="text-sm text-gray-600 mt-1">Demographics, MMSE scores, CDR ratings</p>
+                <div className="p-3 sm:p-4 border border-gray-200 rounded-lg">
+                  <h4 className="font-medium text-gray-800 text-sm sm:text-base">Cross-sectional Data</h4>
+                  <p className="text-xs sm:text-sm text-gray-600 mt-1">Demographics, MMSE scores, CDR ratings</p>
                   <p className="text-xs text-gray-500 mt-2">File: oasis_cross-sectional.csv</p>
                 </div>
-                <div className="p-4 border border-gray-200 rounded-lg">
-                  <h4 className="font-medium text-gray-800">Longitudinal Data</h4>
-                  <p className="text-sm text-gray-600 mt-1">Follow-up assessments over time</p>
+                <div className="p-3 sm:p-4 border border-gray-200 rounded-lg">
+                  <h4 className="font-medium text-gray-800 text-sm sm:text-base">Longitudinal Data</h4>
+                  <p className="text-xs sm:text-sm text-gray-600 mt-1">Follow-up assessments over time</p>
                   <p className="text-xs text-gray-500 mt-2">File: oasis_longitudinal.csv</p>
                 </div>
               </div>
             </div>
             
             <div>
-              <h3 className="text-lg font-medium mb-4">Biomarker Data</h3>
+              <h3 className="text-base sm:text-lg font-medium mb-3 sm:mb-4">Biomarker Data</h3>
               <div className="space-y-3">
-                <div className="p-4 border border-gray-200 rounded-lg">
-                  <h4 className="font-medium text-gray-800">Plasma Lipidomics</h4>
-                  <p className="text-sm text-gray-600 mt-1">Aβ42/40 ratio, p-tau181, NFL levels</p>
+                <div className="p-3 sm:p-4 border border-gray-200 rounded-lg">
+                  <h4 className="font-medium text-gray-800 text-sm sm:text-base">Plasma Lipidomics</h4>
+                  <p className="text-xs sm:text-sm text-gray-600 mt-1">Aβ42/40 ratio, p-tau181, NFL levels</p>
                   <p className="text-xs text-gray-500 mt-2">File: Plasma lipidomics in Alzheimers disease.csv</p>
                 </div>
-                <div className="p-4 border border-gray-200 rounded-lg">
-                  <h4 className="font-medium text-gray-800">Genetic Variants</h4>
-                  <p className="text-sm text-gray-600 mt-1">APOE4 status and variant analysis</p>
+                <div className="p-3 sm:p-4 border border-gray-200 rounded-lg">
+                  <h4 className="font-medium text-gray-800 text-sm sm:text-base">Genetic Variants</h4>
+                  <p className="text-xs sm:text-sm text-gray-600 mt-1">APOE4 status and variant analysis</p>
                   <p className="text-xs text-gray-500 mt-2">Files: advp.hg38.bed, advp.hg38.tsv</p>
                 </div>
               </div>

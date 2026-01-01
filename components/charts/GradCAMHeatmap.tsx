@@ -183,19 +183,19 @@ export default function GradCAMHeatmap({ data }: GradCAMHeatmapProps) {
   }
 
   return (
-    <div className="bg-white rounded-xl shadow-lg border border-gray-100 p-6">
-      <div className="text-center mb-6">
-        <h3 className="text-2xl font-semibold text-gray-900 mb-2">{data.title}</h3>
-        <p className="text-xl text-blue-600 font-medium">Model Confidence: {data.confidence}%</p>
+    <div className="bg-white rounded-xl shadow-lg border border-gray-100 p-4 sm:p-6">
+      <div className="text-center mb-4 sm:mb-6">
+        <h3 className="text-lg sm:text-2xl font-semibold text-gray-900 mb-2">{data.title}</h3>
+        <p className="text-base sm:text-xl text-blue-600 font-medium">Model Confidence: {data.confidence}%</p>
       </div>
 
-      <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 xl:grid-cols-3 gap-4 sm:gap-8">
         {/* Brain Visualization with Real Image Overlay - Takes 2 columns */}
-        <div className="xl:col-span-2 space-y-6">
+        <div className="xl:col-span-2 space-y-4 sm:space-y-6">
           {/* 2D Attention Heatmap on Uploaded Image */}
-          <div className="p-6 bg-gray-50 rounded-lg">
-            <h4 className="font-semibold text-gray-800 mb-4 text-center">2D Attention Heatmap on Uploaded Image</h4>
-            <div className="w-full bg-black rounded-lg relative overflow-hidden flex items-center justify-center" style={{ minHeight: '400px' }}>
+          <div className="p-3 sm:p-6 bg-gray-50 rounded-lg">
+            <h4 className="font-semibold text-gray-800 mb-3 sm:mb-4 text-center text-sm sm:text-base">2D Attention Heatmap on Uploaded Image</h4>
+            <div className="w-full bg-black rounded-lg relative overflow-hidden flex items-center justify-center" style={{ minHeight: '250px' }}>
               {data.originalImage ? (
                 <div className="relative w-full h-full flex items-center justify-center">
                   {/* Hidden canvas for processing */}
@@ -207,12 +207,12 @@ export default function GradCAMHeatmap({ data }: GradCAMHeatmapProps) {
                       <img
                         src={overlaidImage}
                         alt="MRI with Grad-CAM overlay"
-                        className="max-w-full max-h-96 w-auto h-auto object-contain rounded-md shadow-lg"
-                        style={{ minWidth: '300px', minHeight: '300px' }}
+                        className="max-w-full max-h-64 sm:max-h-96 w-auto h-auto object-contain rounded-md shadow-lg"
+                        style={{ minWidth: '200px', minHeight: '200px' }}
                       />
                       
-                      {/* Region labels overlay */}
-                      <div className="absolute inset-0 pointer-events-none">
+                      {/* Region labels overlay - Hidden on mobile for clarity */}
+                      <div className="absolute inset-0 pointer-events-none hidden sm:block">
                         <div className="absolute top-4 left-1/2 transform -translate-x-1/2 text-white text-sm font-medium bg-black bg-opacity-80 px-3 py-1 rounded-full">
                           Frontal Cortex
                         </div>
@@ -228,47 +228,47 @@ export default function GradCAMHeatmap({ data }: GradCAMHeatmapProps) {
                       </div>
                     </div>
                   ) : (
-                    <div className="flex flex-col items-center justify-center h-80 w-80">
-                      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mb-4"></div>
-                      <span className="text-white text-lg">Generating heatmap...</span>
+                    <div className="flex flex-col items-center justify-center h-48 sm:h-80 w-48 sm:w-80">
+                      <div className="animate-spin rounded-full h-8 w-8 sm:h-12 sm:w-12 border-b-2 border-blue-500 mb-3 sm:mb-4"></div>
+                      <span className="text-white text-sm sm:text-lg">Generating heatmap...</span>
                     </div>
                   )}
                 </div>
               ) : (
-                <div className="text-center text-white p-8">
-                  <div className="w-20 h-20 bg-gray-600 rounded-full mx-auto mb-6 flex items-center justify-center">
-                    <svg className="w-10 h-10" fill="currentColor" viewBox="0 0 20 20">
+                <div className="text-center text-white p-4 sm:p-8">
+                  <div className="w-12 h-12 sm:w-20 sm:h-20 bg-gray-600 rounded-full mx-auto mb-3 sm:mb-6 flex items-center justify-center">
+                    <svg className="w-6 h-6 sm:w-10 sm:h-10" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clipRule="evenodd" />
                     </svg>
                   </div>
-                  <p className="text-lg">Upload an MRI image to see Grad-CAM visualization</p>
+                  <p className="text-sm sm:text-lg">Upload an MRI image to see Grad-CAM visualization</p>
                 </div>
               )}
             </div>
           </div>
 
           {/* Attention Legend */}
-          <div className="p-4 bg-gray-50 rounded-lg">
-            <h4 className="font-semibold text-gray-800 mb-3">Attention Intensity Legend:</h4>
-            <div className="grid grid-cols-2 gap-3 text-sm">
-              <div className="flex items-center space-x-3">
-                <div className="w-6 h-6 bg-red-500 rounded-full"></div>
+          <div className="p-3 sm:p-4 bg-gray-50 rounded-lg">
+            <h4 className="font-semibold text-gray-800 mb-2 sm:mb-3 text-sm sm:text-base">Attention Intensity Legend:</h4>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 text-xs sm:text-sm">
+              <div className="flex items-center space-x-2 sm:space-x-3">
+                <div className="w-4 h-4 sm:w-6 sm:h-6 bg-red-500 rounded-full flex-shrink-0"></div>
                 <span className="font-medium">Critical (&gt;60%)</span>
               </div>
-              <div className="flex items-center space-x-3">
-                <div className="w-6 h-6 bg-orange-500 rounded-full"></div>
+              <div className="flex items-center space-x-2 sm:space-x-3">
+                <div className="w-4 h-4 sm:w-6 sm:h-6 bg-orange-500 rounded-full flex-shrink-0"></div>
                 <span className="font-medium">High (40-60%)</span>
               </div>
-              <div className="flex items-center space-x-3">
-                <div className="w-6 h-6 bg-yellow-500 rounded-full"></div>
+              <div className="flex items-center space-x-2 sm:space-x-3">
+                <div className="w-4 h-4 sm:w-6 sm:h-6 bg-yellow-500 rounded-full flex-shrink-0"></div>
                 <span className="font-medium">Moderate (20-40%)</span>
               </div>
-              <div className="flex items-center space-x-3">
-                <div className="w-6 h-6 bg-green-500 rounded-full"></div>
+              <div className="flex items-center space-x-2 sm:space-x-3">
+                <div className="w-4 h-4 sm:w-6 sm:h-6 bg-green-500 rounded-full flex-shrink-0"></div>
                 <span className="font-medium">Low (&lt;20%)</span>
               </div>
             </div>
-            <p className="text-sm text-gray-600 mt-3 p-3 bg-blue-50 rounded-lg border border-blue-200">
+            <p className="text-xs sm:text-sm text-gray-600 mt-2 sm:mt-3 p-2 sm:p-3 bg-blue-50 rounded-lg border border-blue-200">
               <strong>Interpretation:</strong> Red/orange areas indicate regions the AI model focused on most for its prediction. 
               Higher attention suggests these areas contain features critical for the diagnosis.
             </p>
@@ -276,23 +276,23 @@ export default function GradCAMHeatmap({ data }: GradCAMHeatmapProps) {
         </div>
 
         {/* Region Analysis - Takes 1 column */}
-        <div className="space-y-4">
-          <h4 className="font-semibold text-gray-800 mb-4 text-center">Brain Region Analysis</h4>
+        <div className="space-y-3 sm:space-y-4">
+          <h4 className="font-semibold text-gray-800 mb-3 sm:mb-4 text-center text-sm sm:text-base">Brain Region Analysis</h4>
           {data.regions.map((region, index) => (
-            <div key={index} className="p-4 bg-gray-50 rounded-lg border border-gray-200">
-              <div className="flex items-center justify-between mb-3">
-                <h5 className="font-medium text-gray-900">{region.name}</h5>
-                <span className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusBadgeColor(region.color)}`}>
+            <div key={index} className="p-3 sm:p-4 bg-gray-50 rounded-lg border border-gray-200">
+              <div className="flex items-center justify-between mb-2 sm:mb-3">
+                <h5 className="font-medium text-gray-900 text-sm sm:text-base">{region.name}</h5>
+                <span className={`px-2 sm:px-3 py-1 rounded-full text-xs font-medium ${getStatusBadgeColor(region.color)}`}>
                   {region.status}
                 </span>
               </div>
-              <div className="flex items-center justify-between mb-3">
-                <span className="text-sm text-gray-600">Attention Weight:</span>
-                <span className="font-semibold text-lg">{(region.attention * 100).toFixed(1)}%</span>
+              <div className="flex items-center justify-between mb-2 sm:mb-3">
+                <span className="text-xs sm:text-sm text-gray-600">Attention Weight:</span>
+                <span className="font-semibold text-sm sm:text-lg">{(region.attention * 100).toFixed(1)}%</span>
               </div>
-              <div className="w-full bg-gray-200 rounded-full h-4">
+              <div className="w-full bg-gray-200 rounded-full h-3 sm:h-4">
                 <div
-                  className="h-4 rounded-full transition-all duration-500"
+                  className="h-3 sm:h-4 rounded-full transition-all duration-500"
                   style={{ 
                     width: `${region.attention * 100}%`,
                     backgroundColor: getAttentionColorRGB(region.attention)
@@ -303,9 +303,9 @@ export default function GradCAMHeatmap({ data }: GradCAMHeatmapProps) {
           ))}
 
           {/* Clinical Interpretation */}
-          <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
-            <h5 className="font-semibold text-blue-900 mb-3">Clinical Interpretation:</h5>
-            <p className="text-sm text-blue-800 leading-relaxed">
+          <div className="p-3 sm:p-4 bg-blue-50 rounded-lg border border-blue-200">
+            <h5 className="font-semibold text-blue-900 mb-2 sm:mb-3 text-sm sm:text-base">Clinical Interpretation:</h5>
+            <p className="text-xs sm:text-sm text-blue-800 leading-relaxed">
               {data.title.includes('Normal') && 'All brain regions show normal structure with low attention weights, indicating healthy brain tissue with no significant pathological changes.'}
               {data.title.includes('MCI') && 'Moderate attention on hippocampus and temporal regions suggests early neurodegeneration consistent with MCI. The model detects subtle structural changes.'}
               {data.title.includes('Mild') && 'High attention on multiple regions indicates widespread atrophy patterns typical of mild Alzheimer\'s disease. Multiple brain areas show significant changes.'}
@@ -314,23 +314,23 @@ export default function GradCAMHeatmap({ data }: GradCAMHeatmapProps) {
           </div>
 
           {/* Technical Details */}
-          <div className="p-4 bg-gray-50 rounded-lg border border-gray-200">
-            <h5 className="font-semibold text-gray-800 mb-3">Technical Details:</h5>
-            <ul className="text-sm text-gray-600 space-y-2">
+          <div className="p-3 sm:p-4 bg-gray-50 rounded-lg border border-gray-200">
+            <h5 className="font-semibold text-gray-800 mb-2 sm:mb-3 text-sm sm:text-base">Technical Details:</h5>
+            <ul className="text-xs sm:text-sm text-gray-600 space-y-1 sm:space-y-2">
               <li className="flex items-start">
-                <span className="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-blue-500 rounded-full mt-1.5 sm:mt-2 mr-2 sm:mr-3 flex-shrink-0"></span>
                 <span><strong>Method:</strong> Gradient-weighted Class Activation Mapping (Grad-CAM)</span>
               </li>
               <li className="flex items-start">
-                <span className="w-2 h-2 bg-green-500 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-green-500 rounded-full mt-1.5 sm:mt-2 mr-2 sm:mr-3 flex-shrink-0"></span>
                 <span><strong>Target Layer:</strong> Final convolutional layer (ResNet50 layer4[-1])</span>
               </li>
               <li className="flex items-start">
-                <span className="w-2 h-2 bg-purple-500 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-purple-500 rounded-full mt-1.5 sm:mt-2 mr-2 sm:mr-3 flex-shrink-0"></span>
                 <span><strong>Colormap:</strong> Jet colormap (blue=low, red=high attention)</span>
               </li>
               <li className="flex items-start">
-                <span className="w-2 h-2 bg-orange-500 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-orange-500 rounded-full mt-1.5 sm:mt-2 mr-2 sm:mr-3 flex-shrink-0"></span>
                 <span><strong>Overlay:</strong> 70% heatmap, 30% original image</span>
               </li>
             </ul>

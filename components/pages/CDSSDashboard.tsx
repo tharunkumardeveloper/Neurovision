@@ -114,92 +114,92 @@ export default function CDSSDashboard() {
   }
 
   return (
-    <div className="max-w-7xl mx-auto">
+    <div className="max-w-7xl mx-auto space-y-6 sm:space-y-8">
       {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">
+      <div className="mb-6 sm:mb-8">
+        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
           Clinical Decision Support System
         </h1>
-        <p className="text-lg text-gray-600">
+        <p className="text-base sm:text-lg text-gray-600">
           AI-Powered Early Alzheimer's Detection Using Multi-Modal Biomarker Integration
         </p>
       </div>
 
       {/* System Status */}
-      <div className="grid lg:grid-cols-4 gap-6 mb-8">
-        <div className="bg-white rounded-lg shadow-md p-6">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 mb-6 sm:mb-8">
+        <div className="bg-white rounded-lg shadow-md p-4 sm:p-6">
           <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm font-medium text-gray-600">System Status</p>
+            <div className="min-w-0">
+              <p className="text-xs sm:text-sm font-medium text-gray-600 truncate">System Status</p>
               <div className="flex items-center mt-1">
-                <div className={`w-3 h-3 rounded-full mr-2 ${
+                <div className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full mr-1 sm:mr-2 ${
                   metrics.systemStatus === 'Online' ? 'bg-green-500 animate-pulse' : 'bg-red-500'
                 }`}></div>
-                <span className={`font-semibold ${
+                <span className={`text-xs sm:text-sm font-semibold truncate ${
                   metrics.systemStatus === 'Online' ? 'text-green-600' : 'text-red-600'
                 }`}>
                   {metrics.systemStatus}
                 </span>
               </div>
             </div>
-            <Shield className="w-8 h-8 text-blue-500" />
+            <Shield className="w-6 h-6 sm:w-8 sm:h-8 text-blue-500 flex-shrink-0" />
           </div>
         </div>
 
-        <div className="bg-white rounded-lg shadow-md p-6">
+        <div className="bg-white rounded-lg shadow-md p-4 sm:p-6">
           <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm font-medium text-gray-600">Model Accuracy</p>
-              <p className="text-2xl font-bold text-blue-600">{metrics.accuracy}%</p>
+            <div className="min-w-0">
+              <p className="text-xs sm:text-sm font-medium text-gray-600 truncate">Model Accuracy</p>
+              <p className="text-lg sm:text-2xl font-bold text-blue-600">{metrics.accuracy}%</p>
             </div>
-            <TrendingUp className="w-8 h-8 text-blue-500" />
+            <TrendingUp className="w-6 h-6 sm:w-8 sm:h-8 text-blue-500 flex-shrink-0" />
           </div>
         </div>
 
-        <div className="bg-white rounded-lg shadow-md p-6">
+        <div className="bg-white rounded-lg shadow-md p-4 sm:p-6">
           <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm font-medium text-gray-600">Avg Processing</p>
-              <p className="text-2xl font-bold text-green-600">{metrics.avgProcessingTime}min</p>
+            <div className="min-w-0">
+              <p className="text-xs sm:text-sm font-medium text-gray-600 truncate">Avg Processing</p>
+              <p className="text-lg sm:text-2xl font-bold text-green-600">{metrics.avgProcessingTime}min</p>
             </div>
-            <Clock className="w-8 h-8 text-green-500" />
+            <Clock className="w-6 h-6 sm:w-8 sm:h-8 text-green-500 flex-shrink-0" />
           </div>
         </div>
 
-        <div className="bg-white rounded-lg shadow-md p-6">
+        <div className="bg-white rounded-lg shadow-md p-4 sm:p-6">
           <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm font-medium text-gray-600">Total Patients</p>
-              <p className="text-2xl font-bold text-purple-600">{metrics.totalPatients}</p>
+            <div className="min-w-0">
+              <p className="text-xs sm:text-sm font-medium text-gray-600 truncate">Total Patients</p>
+              <p className="text-lg sm:text-2xl font-bold text-purple-600">{metrics.totalPatients}</p>
             </div>
-            <Users className="w-8 h-8 text-purple-500" />
+            <Users className="w-6 h-6 sm:w-8 sm:h-8 text-purple-500 flex-shrink-0" />
           </div>
         </div>
       </div>
 
       {/* Tiered Diagnostic Flow */}
-      <div className="bg-white rounded-lg shadow-md p-6 mb-8">
-        <h2 className="text-xl font-semibold mb-6">Tiered Diagnostic Approach</h2>
-        <div className="grid md:grid-cols-2 gap-8">
+      <div className="bg-white rounded-lg shadow-md p-4 sm:p-6 mb-6 sm:mb-8">
+        <h2 className="text-lg sm:text-xl font-semibold mb-4 sm:mb-6">Tiered Diagnostic Approach</h2>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
           {/* Stage 1 */}
-          <div className="border-2 border-blue-200 rounded-lg p-6">
+          <div className="border-2 border-blue-200 rounded-lg p-4 sm:p-6">
             <div className="flex items-center mb-4">
-              <div className="w-8 h-8 bg-blue-500 text-white rounded-full flex items-center justify-center font-bold mr-3">
+              <div className="w-6 h-6 sm:w-8 sm:h-8 bg-blue-500 text-white rounded-full flex items-center justify-center font-bold mr-2 sm:mr-3 text-sm sm:text-base">
                 1
               </div>
-              <h3 className="text-lg font-semibold">Stage 1: Primary Screening</h3>
+              <h3 className="text-base sm:text-lg font-semibold">Stage 1: Primary Screening</h3>
             </div>
-            <div className="space-y-3">
+            <div className="space-y-2 sm:space-y-3">
               <div className="flex items-center">
-                <Users className="w-5 h-5 text-blue-500 mr-2" />
+                <Users className="w-4 h-4 sm:w-5 sm:h-5 text-blue-500 mr-2 flex-shrink-0" />
                 <span className="text-sm">Clinical Assessment (MMSE, CDR)</span>
               </div>
               <div className="flex items-center">
-                <Activity className="w-5 h-5 text-blue-500 mr-2" />
+                <Activity className="w-4 h-4 sm:w-5 sm:h-5 text-blue-500 mr-2 flex-shrink-0" />
                 <span className="text-sm">Digital Handwriting Analysis</span>
               </div>
               <div className="flex items-center">
-                <Zap className="w-5 h-5 text-blue-500 mr-2" />
+                <Zap className="w-4 h-4 sm:w-5 sm:h-5 text-blue-500 mr-2 flex-shrink-0" />
                 <span className="text-sm">SVM-based Risk Stratification</span>
               </div>
             </div>
@@ -214,24 +214,24 @@ export default function CDSSDashboard() {
           </div>
 
           {/* Stage 2 */}
-          <div className="border-2 border-purple-200 rounded-lg p-6">
+          <div className="border-2 border-purple-200 rounded-lg p-4 sm:p-6">
             <div className="flex items-center mb-4">
-              <div className="w-8 h-8 bg-purple-500 text-white rounded-full flex items-center justify-center font-bold mr-3">
+              <div className="w-6 h-6 sm:w-8 sm:h-8 bg-purple-500 text-white rounded-full flex items-center justify-center font-bold mr-2 sm:mr-3 text-sm sm:text-base">
                 2
               </div>
-              <h3 className="text-lg font-semibold">Stage 2: Advanced Analysis</h3>
+              <h3 className="text-base sm:text-lg font-semibold">Stage 2: Advanced Analysis</h3>
             </div>
-            <div className="space-y-3">
+            <div className="space-y-2 sm:space-y-3">
               <div className="flex items-center">
-                <Brain className="w-5 h-5 text-purple-500 mr-2" />
+                <Brain className="w-4 h-4 sm:w-5 sm:h-5 text-purple-500 mr-2 flex-shrink-0" />
                 <span className="text-sm">Structural MRI (CNN Analysis)</span>
               </div>
               <div className="flex items-center">
-                <Activity className="w-5 h-5 text-purple-500 mr-2" />
+                <Activity className="w-4 h-4 sm:w-5 sm:h-5 text-purple-500 mr-2 flex-shrink-0" />
                 <span className="text-sm">Blood Biomarkers (Random Forest)</span>
               </div>
               <div className="flex items-center">
-                <TrendingUp className="w-5 h-5 text-purple-500 mr-2" />
+                <TrendingUp className="w-4 h-4 sm:w-5 sm:h-5 text-purple-500 mr-2 flex-shrink-0" />
                 <span className="text-sm">Ensemble Meta-learner</span>
               </div>
             </div>
@@ -248,33 +248,33 @@ export default function CDSSDashboard() {
       </div>
 
       {/* Model Performance Insights from Research */}
-      <div className="bg-white rounded-lg shadow-md p-6 mb-8">
-        <h2 className="text-xl font-semibold mb-6">Multi-Modal AI Performance</h2>
-        <div className="grid md:grid-cols-3 gap-6">
-          <div className="text-center p-4 bg-blue-50 rounded-lg">
-            <Brain className="w-8 h-8 text-blue-600 mx-auto mb-3" />
-            <h3 className="font-semibold text-blue-900 mb-2">MRI CNN Model</h3>
-            <div className="space-y-1 text-sm">
+      <div className="bg-white rounded-lg shadow-md p-4 sm:p-6 mb-6 sm:mb-8">
+        <h2 className="text-lg sm:text-xl font-semibold mb-4 sm:mb-6">Multi-Modal AI Performance</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+          <div className="text-center p-3 sm:p-4 bg-blue-50 rounded-lg">
+            <Brain className="w-6 h-6 sm:w-8 sm:h-8 text-blue-600 mx-auto mb-2 sm:mb-3" />
+            <h3 className="font-semibold text-blue-900 mb-2 text-sm sm:text-base">MRI CNN Model</h3>
+            <div className="space-y-1 text-xs sm:text-sm">
               <div><strong>Accuracy:</strong> {modelPerformanceResults.mriCNN.accuracy.toFixed(2)}%</div>
               <div><strong>Macro F1:</strong> {modelPerformanceResults.mriCNN.macroF1.toFixed(2)}%</div>
               <div><strong>Architecture:</strong> ResNet50</div>
             </div>
           </div>
           
-          <div className="text-center p-4 bg-purple-50 rounded-lg">
-            <Activity className="w-8 h-8 text-purple-600 mx-auto mb-3" />
-            <h3 className="font-semibold text-purple-900 mb-2">Genomic XGBoost</h3>
-            <div className="space-y-1 text-sm">
+          <div className="text-center p-3 sm:p-4 bg-purple-50 rounded-lg">
+            <Activity className="w-6 h-6 sm:w-8 sm:h-8 text-purple-600 mx-auto mb-2 sm:mb-3" />
+            <h3 className="font-semibold text-purple-900 mb-2 text-sm sm:text-base">Genomic XGBoost</h3>
+            <div className="space-y-1 text-xs sm:text-sm">
               <div><strong>Accuracy:</strong> {modelPerformanceResults.genomicXGB.accuracy.toFixed(2)}%</div>
               <div><strong>Macro F1:</strong> {modelPerformanceResults.genomicXGB.macroF1.toFixed(2)}%</div>
               <div><strong>Features:</strong> 1000+ variants</div>
             </div>
           </div>
           
-          <div className="text-center p-4 bg-green-50 rounded-lg border-2 border-green-200">
-            <TrendingUp className="w-8 h-8 text-green-600 mx-auto mb-3" />
-            <h3 className="font-semibold text-green-900 mb-2">Ensemble Model</h3>
-            <div className="space-y-1 text-sm">
+          <div className="text-center p-3 sm:p-4 bg-green-50 rounded-lg border-2 border-green-200 sm:col-span-2 lg:col-span-1">
+            <TrendingUp className="w-6 h-6 sm:w-8 sm:h-8 text-green-600 mx-auto mb-2 sm:mb-3" />
+            <h3 className="font-semibold text-green-900 mb-2 text-sm sm:text-base">Ensemble Model</h3>
+            <div className="space-y-1 text-xs sm:text-sm">
               <div><strong>Accuracy:</strong> {modelPerformanceResults.ensemble.accuracy.toFixed(2)}%</div>
               <div><strong>Macro F1:</strong> {modelPerformanceResults.ensemble.macroF1.toFixed(2)}%</div>
               <div className="text-green-600 font-medium">+{modelPerformanceResults.ensemble.improvement.accuracyVsMRI.toFixed(2)}% vs MRI</div>
@@ -282,9 +282,9 @@ export default function CDSSDashboard() {
           </div>
         </div>
         
-        <div className="mt-6 p-4 bg-gradient-to-r from-blue-50 to-green-50 rounded-lg">
-          <h4 className="font-semibold text-gray-900 mb-2">Key Research Findings:</h4>
-          <ul className="text-sm text-gray-700 space-y-1">
+        <div className="mt-4 sm:mt-6 p-3 sm:p-4 bg-gradient-to-r from-blue-50 to-green-50 rounded-lg">
+          <h4 className="font-semibold text-gray-900 mb-2 text-sm sm:text-base">Key Research Findings:</h4>
+          <ul className="text-xs sm:text-sm text-gray-700 space-y-1">
             <li>• Ensemble achieves {modelPerformanceResults.ensemble.accuracy.toFixed(2)}% accuracy, outperforming MRI CNN ({modelPerformanceResults.mriCNN.accuracy.toFixed(2)}%)</li>
             <li>• Macro F1 improvement of {modelPerformanceResults.ensemble.improvement.macroF1VsMRI.toFixed(2)}% shows better class balance</li>
             <li>• Multi-modal approach successfully combines complementary information sources</li>
@@ -294,45 +294,104 @@ export default function CDSSDashboard() {
       </div>
 
       {/* Recent Cases */}
-      <div className="bg-white rounded-lg shadow-md p-6">
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-xl font-semibold">Recent Cases</h2>
+      <div className="bg-white rounded-lg shadow-md p-4 sm:p-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 sm:mb-6 space-y-3 sm:space-y-0">
+          <h2 className="text-lg sm:text-xl font-semibold">Recent Cases</h2>
           <button 
             onClick={handleProcessNewCase}
             disabled={isProcessing}
-            className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 font-medium disabled:opacity-50"
+            className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 font-medium disabled:opacity-50 text-sm sm:text-base"
           >
             {isProcessing ? 'Processing...' : 'Process New Case'}
           </button>
         </div>
 
         {isProcessing && (
-          <div className="mb-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+          <div className="mb-4 p-3 sm:p-4 bg-blue-50 border border-blue-200 rounded-lg">
             <div className="flex items-center">
-              <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-500 mr-3"></div>
-              <span className="text-blue-700 font-medium">Processing new patient case...</span>
+              <div className="animate-spin rounded-full h-5 w-5 sm:h-6 sm:w-6 border-b-2 border-blue-500 mr-2 sm:mr-3"></div>
+              <span className="text-blue-700 font-medium text-sm sm:text-base">Processing new patient case...</span>
             </div>
           </div>
         )}
 
-        <div className="overflow-x-auto">
+        {/* Mobile Card View */}
+        <div className="block sm:hidden space-y-3">
+          {recentCases.map((case_) => (
+            <div key={case_.id} className="border border-gray-200 rounded-lg p-3 bg-gray-50">
+              <div className="flex justify-between items-start mb-2">
+                <span className="font-medium text-blue-600 text-sm">{case_.id}</span>
+                <span className="text-xs text-gray-500">{formatTimeAgo(case_.timestamp)}</span>
+              </div>
+              <div className="grid grid-cols-2 gap-2 text-xs">
+                <div>
+                  <span className="text-gray-600">Demographics:</span>
+                  <div className="font-medium">{case_.gender}, {case_.age}y</div>
+                </div>
+                <div>
+                  <span className="text-gray-600">Status:</span>
+                  <div>
+                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                      case_.status === 'Complete' ? 'bg-green-100 text-green-800' :
+                      case_.status === 'Stage 2' ? 'bg-blue-100 text-blue-800' :
+                      'bg-gray-100 text-gray-800'
+                    }`}>
+                      {case_.status}
+                    </span>
+                  </div>
+                </div>
+                <div>
+                  <span className="text-gray-600">Stage 1 Risk:</span>
+                  <div>
+                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${getRiskBg(case_.stage1Risk)} ${getRiskColor(case_.stage1Risk)}`}>
+                      {case_.stage1Risk}%
+                    </span>
+                  </div>
+                </div>
+                <div>
+                  <span className="text-gray-600">Diagnosis:</span>
+                  <div>
+                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                      case_.diagnosis === 'Normal' ? 'bg-green-100 text-green-800' :
+                      case_.diagnosis === 'MCI' ? 'bg-yellow-100 text-yellow-800' :
+                      'bg-red-100 text-red-800'
+                    }`}>
+                      {case_.diagnosis}
+                    </span>
+                  </div>
+                </div>
+              </div>
+              {case_.stage2Risk && (
+                <div className="mt-2 pt-2 border-t border-gray-200">
+                  <span className="text-xs text-gray-600">Stage 2 Risk:</span>
+                  <span className={`ml-2 px-2 py-1 rounded-full text-xs font-medium ${getRiskBg(case_.stage2Risk)} ${getRiskColor(case_.stage2Risk)}`}>
+                    {case_.stage2Risk}%
+                  </span>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+
+        {/* Desktop Table View */}
+        <div className="hidden sm:block overflow-x-auto">
           <table className="min-w-full">
             <thead>
               <tr className="border-b border-gray-200">
-                <th className="text-left py-3 px-4 font-medium text-gray-700">Patient ID</th>
-                <th className="text-left py-3 px-4 font-medium text-gray-700">Demographics</th>
-                <th className="text-left py-3 px-4 font-medium text-gray-700">Stage 1 Risk</th>
-                <th className="text-left py-3 px-4 font-medium text-gray-700">Stage 2 Risk</th>
-                <th className="text-left py-3 px-4 font-medium text-gray-700">Diagnosis</th>
-                <th className="text-left py-3 px-4 font-medium text-gray-700">Status</th>
-                <th className="text-left py-3 px-4 font-medium text-gray-700">Time</th>
+                <th className="text-left py-3 px-4 font-medium text-gray-700 text-sm">Patient ID</th>
+                <th className="text-left py-3 px-4 font-medium text-gray-700 text-sm">Demographics</th>
+                <th className="text-left py-3 px-4 font-medium text-gray-700 text-sm">Stage 1 Risk</th>
+                <th className="text-left py-3 px-4 font-medium text-gray-700 text-sm">Stage 2 Risk</th>
+                <th className="text-left py-3 px-4 font-medium text-gray-700 text-sm">Diagnosis</th>
+                <th className="text-left py-3 px-4 font-medium text-gray-700 text-sm">Status</th>
+                <th className="text-left py-3 px-4 font-medium text-gray-700 text-sm">Time</th>
               </tr>
             </thead>
             <tbody>
               {recentCases.map((case_) => (
                 <tr key={case_.id} className="border-b border-gray-100 hover:bg-gray-50">
-                  <td className="py-3 px-4 font-medium text-blue-600">{case_.id}</td>
-                  <td className="py-3 px-4 text-gray-700">
+                  <td className="py-3 px-4 font-medium text-blue-600 text-sm">{case_.id}</td>
+                  <td className="py-3 px-4 text-gray-700 text-sm">
                     {case_.gender}, {case_.age}y
                   </td>
                   <td className="py-3 px-4">
@@ -861,18 +920,18 @@ export default function CDSSDashboard() {
       </div>
 
       {/* Quick Actions */}
-      <div className="mt-8 grid md:grid-cols-3 gap-4">
-        <button className="bg-blue-500 text-white p-4 rounded-lg hover:bg-blue-600 transition-colors">
-          <Users className="w-6 h-6 mx-auto mb-2" />
-          <span className="block font-medium">New Patient Assessment</span>
+      <div className="mt-6 sm:mt-8 grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
+        <button className="bg-blue-500 text-white p-3 sm:p-4 rounded-lg hover:bg-blue-600 transition-colors">
+          <Users className="w-5 h-5 sm:w-6 sm:h-6 mx-auto mb-1 sm:mb-2" />
+          <span className="block font-medium text-sm sm:text-base">New Patient Assessment</span>
         </button>
-        <button className="bg-purple-500 text-white p-4 rounded-lg hover:bg-purple-600 transition-colors">
-          <Brain className="w-6 h-6 mx-auto mb-2" />
-          <span className="block font-medium">View ML Pipeline</span>
+        <button className="bg-purple-500 text-white p-3 sm:p-4 rounded-lg hover:bg-purple-600 transition-colors">
+          <Brain className="w-5 h-5 sm:w-6 sm:h-6 mx-auto mb-1 sm:mb-2" />
+          <span className="block font-medium text-sm sm:text-base">View ML Pipeline</span>
         </button>
-        <button className="bg-green-500 text-white p-4 rounded-lg hover:bg-green-600 transition-colors">
-          <TrendingUp className="w-6 h-6 mx-auto mb-2" />
-          <span className="block font-medium">Generate Report</span>
+        <button className="bg-green-500 text-white p-3 sm:p-4 rounded-lg hover:bg-green-600 transition-colors">
+          <TrendingUp className="w-5 h-5 sm:w-6 sm:h-6 mx-auto mb-1 sm:mb-2" />
+          <span className="block font-medium text-sm sm:text-base">Generate Report</span>
         </button>
       </div>
     </div>

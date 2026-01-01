@@ -39,7 +39,7 @@ export default function Dashboard() {
       <Header />
       <NavigationTabs activeTab={activeTab} setActiveTab={handleTabChange} />
       
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
         <div role="tabpanel" id={`${activeTab}-panel`} aria-labelledby={`${activeTab}-tab`}>
           {renderTabContent()}
         </div>

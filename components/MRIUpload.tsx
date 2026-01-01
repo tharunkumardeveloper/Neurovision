@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react'
 import { Upload, Clock, CheckCircle, AlertCircle } from 'lucide-react'
-import { inferMRIImage, validateMRIFile, getProcessingStatus, MRIInferenceResult } from '../lib/modelInference'
+import { inferMRIImage, validateMRIFile, validateMRIImageContent, getProcessingStatus, MRIInferenceResult } from '../lib/modelInference'
 import GradCAMHeatmap from './charts/GradCAMHeatmap'
 import SampleMRIGallery from './SampleMRIGallery'
 import SHAPBarChart from './charts/SHAPBarChart'
@@ -163,32 +163,44 @@ export default function MRIUpload({ onResult }: MRIUploadProps) {
     setError(null)
     setResult(null)
 
-    // Validate file
-    const validation = validateMRIFile(file)
-    if (!validation.valid) {
-      setError(validation.error!)
+    // Basic file validation
+    const basicValidation = validateMRIFile(file)
+    if (!basicValidation.valid) {
+      setError(basicValidation.error!)
       return
     }
 
-    setUploadedFile(file)
+    // Show initial processing state for content validation
     setProcessing(true)
     setProcessingTime(0)
-
-    // Start processing timer
-    const startTime = Date.now()
-    const timer = setInterval(() => {
-      setProcessingTime(Date.now() - startTime)
-    }, 100)
-
+    
     try {
+      // Enhanced MRI content validation
+      const contentValidation = await validateMRIImageContent(file)
+      if (!contentValidation.valid) {
+        setProcessing(false)
+        setError(contentValidation.error!)
+        return
+      }
+
+      // If validation passes, continue with processing
+      setUploadedFile(file)
+
+      // Start processing timer
+      const startTime = Date.now()
+      const timer = setInterval(() => {
+        setProcessingTime(Date.now() - startTime)
+      }, 100)
+
       const inferenceResult = await inferMRIImage(file)
+      
+      clearInterval(timer)
+      setProcessing(false)
       setResult(inferenceResult)
       onResult?.(inferenceResult)
     } catch (err) {
-      setError('Failed to process MRI image. Please try again.')
-    } finally {
-      clearInterval(timer)
       setProcessing(false)
+      setError('Failed to process MRI image. Please try again.')
     }
   }
 
@@ -215,7 +227,7 @@ export default function MRIUpload({ onResult }: MRIUploadProps) {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       {/* Sample Images Gallery (shown before upload) */}
       {showSamples && !processing && !result && (
         <SampleMRIGallery onImageSelect={handleSampleImageSelect} />
@@ -224,7 +236,7 @@ export default function MRIUpload({ onResult }: MRIUploadProps) {
       {/* Upload Area */}
       {!uploadedFile && !processing && !result && (
         <div
-          className={`relative border-2 border-dashed rounded-lg p-8 text-center transition-colors ${
+          className={`relative border-2 border-dashed rounded-lg p-6 sm:p-8 text-center transition-colors ${
             dragActive
               ? 'border-blue-500 bg-blue-50'
               : 'border-gray-300 hover:border-gray-400'
@@ -241,18 +253,21 @@ export default function MRIUpload({ onResult }: MRIUploadProps) {
             className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
           />
           
-          <Upload className="mx-auto h-12 w-12 text-gray-400 mb-4" />
-          <h3 className="text-lg font-medium text-gray-900 mb-2">
-            Upload Your Own MRI Image
+          <Upload className="mx-auto h-10 w-10 sm:h-12 sm:w-12 text-gray-400 mb-3 sm:mb-4" />
+          <h3 className="text-base sm:text-lg font-medium text-gray-900 mb-2">
+            Upload Your MRI Brain Scan
           </h3>
-          <p className="text-gray-600 mb-4">
-            Drag and drop your MRI image here, or click to browse
+          <p className="text-sm sm:text-base text-gray-600 mb-3 sm:mb-4">
+            Drag and drop your MRI brain image here, or click to browse
           </p>
-          <p className="text-sm text-gray-500">
+          <p className="text-xs sm:text-sm text-gray-500">
             Supports JPEG, PNG, and DICOM files (max 50MB)
           </p>
+          <p className="text-xs sm:text-sm text-orange-600 mt-2 font-medium">
+            ⚠️ Only MRI brain scans are supported - other images will be rejected
+          </p>
           
-          <div className="mt-4 text-xs text-gray-400">
+          <div className="mt-3 sm:mt-4 text-xs text-gray-400">
             Or use the sample images above to see how the AI analysis works
           </div>
         </div>
@@ -260,21 +275,21 @@ export default function MRIUpload({ onResult }: MRIUploadProps) {
 
       {/* Error Display */}
       {error && (
-        <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+        <div className="bg-red-50 border border-red-200 rounded-lg p-3 sm:p-4">
           <div className="flex items-center">
-            <AlertCircle className="h-5 w-5 text-red-500 mr-2" />
-            <span className="text-red-700">{error}</span>
+            <AlertCircle className="h-4 w-4 sm:h-5 sm:w-5 text-red-500 mr-2 flex-shrink-0" />
+            <span className="text-red-700 text-sm sm:text-base">{error}</span>
           </div>
         </div>
       )}
 
       {/* Processing Status */}
       {processing && (
-        <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
-          <div className="flex items-center justify-between mb-4">
+        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 sm:p-6">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-3 sm:mb-4 space-y-2 sm:space-y-0">
             <div className="flex items-center">
-              <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-500 mr-3"></div>
-              <span className="text-blue-700 font-medium">Processing MRI Image...</span>
+              <div className="animate-spin rounded-full h-5 w-5 sm:h-6 sm:w-6 border-b-2 border-blue-500 mr-2 sm:mr-3"></div>
+              <span className="text-blue-700 font-medium text-sm sm:text-base">Processing MRI Image...</span>
             </div>
             <div className="flex items-center text-blue-600">
               <Clock className="h-4 w-4 mr-1" />
@@ -282,7 +297,7 @@ export default function MRIUpload({ onResult }: MRIUploadProps) {
             </div>
           </div>
           
-          <div className="text-sm text-blue-600 mb-3">
+          <div className="text-xs sm:text-sm text-blue-600 mb-2 sm:mb-3">
             {getProcessingStatus(processingTime)}
           </div>
           
@@ -297,51 +312,51 @@ export default function MRIUpload({ onResult }: MRIUploadProps) {
 
       {/* Results Display */}
       {result && (
-        <div className="space-y-6">
+        <div className="space-y-4 sm:space-y-6">
           {/* Prediction Results */}
-          <div className={`rounded-lg border p-6 ${getConfidenceBg(result.prediction.confidence)}`}>
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-semibold text-gray-900">Prediction Results</h3>
+          <div className={`rounded-lg border p-4 sm:p-6 ${getConfidenceBg(result.prediction.confidence)}`}>
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-3 sm:mb-4 space-y-2 sm:space-y-0">
+              <h3 className="text-base sm:text-lg font-semibold text-gray-900">Prediction Results</h3>
               <div className="flex items-center">
-                <CheckCircle className="h-5 w-5 text-green-500 mr-2" />
-                <span className="text-sm text-gray-600">
+                <CheckCircle className="h-4 w-4 sm:h-5 sm:w-5 text-green-500 mr-1 sm:mr-2" />
+                <span className="text-xs sm:text-sm text-gray-600">
                   Processed in {(result.processingTime / 1000).toFixed(1)}s
                 </span>
               </div>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
               <div>
-                <h4 className="font-medium text-gray-800 mb-3">Classification</h4>
+                <h4 className="font-medium text-gray-800 mb-2 sm:mb-3 text-sm sm:text-base">Classification</h4>
                 <div className="space-y-2">
                   <div className="flex justify-between items-center">
-                    <span className="text-lg font-semibold text-gray-900">
+                    <span className="text-base sm:text-lg font-semibold text-gray-900">
                       {result.prediction.class}
                     </span>
-                    <span className={`text-lg font-bold ${getConfidenceColor(result.prediction.confidence)}`}>
+                    <span className={`text-base sm:text-lg font-bold ${getConfidenceColor(result.prediction.confidence)}`}>
                       {(result.prediction.confidence * 100).toFixed(1)}%
                     </span>
                   </div>
-                  <div className="text-sm text-gray-600">
+                  <div className="text-xs sm:text-sm text-gray-600">
                     Model confidence in prediction
                   </div>
                 </div>
               </div>
 
               <div>
-                <h4 className="font-medium text-gray-800 mb-3">Class Probabilities</h4>
+                <h4 className="font-medium text-gray-800 mb-2 sm:mb-3 text-sm sm:text-base">Class Probabilities</h4>
                 <div className="space-y-2">
                   {Object.entries(result.prediction.probabilities).map(([className, prob]) => (
                     <div key={className} className="flex justify-between items-center">
-                      <span className="text-sm text-gray-700">{className}</span>
-                      <div className="flex items-center space-x-2">
-                        <div className="w-20 bg-gray-200 rounded-full h-2">
+                      <span className="text-xs sm:text-sm text-gray-700 truncate mr-2">{className}</span>
+                      <div className="flex items-center space-x-2 flex-shrink-0">
+                        <div className="w-16 sm:w-20 bg-gray-200 rounded-full h-2">
                           <div
                             className="bg-blue-500 h-2 rounded-full"
                             style={{ width: `${prob * 100}%` }}
                           ></div>
                         </div>
-                        <span className="text-sm font-medium text-gray-900 w-12">
+                        <span className="text-xs sm:text-sm font-medium text-gray-900 w-10 sm:w-12">
                           {(prob * 100).toFixed(1)}%
                         </span>
                       </div>
@@ -354,7 +369,7 @@ export default function MRIUpload({ onResult }: MRIUploadProps) {
 
           {/* Grad-CAM Visualization */}
           <div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">
+            <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-3 sm:mb-4">
               Grad-CAM Attention Analysis
             </h3>
             <GradCAMHeatmap data={result.gradCAM} />
@@ -362,7 +377,7 @@ export default function MRIUpload({ onResult }: MRIUploadProps) {
 
           {/* SHAP Analysis */}
           <div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">
+            <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-3 sm:mb-4">
               SHAP Feature Importance
             </h3>
             <SHAPBarChart data={result.shap} />
@@ -372,7 +387,7 @@ export default function MRIUpload({ onResult }: MRIUploadProps) {
           <div className="text-center">
             <button
               onClick={resetUpload}
-              className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+              className="bg-blue-600 text-white px-4 sm:px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors text-sm sm:text-base"
             >
               Analyze Another Image
             </button>
