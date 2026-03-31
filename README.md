@@ -1,239 +1,41 @@
-# NeuroVision CDSS
+## 🧠 **About the Project**
 
-AI-Powered Clinical Decision Support System for Early Alzheimer's Disease Detection Using Multi-Modal Biomarker Integration
+**NeuroVision** is an **AI-powered Clinical Decision Support System (CDSS)** developed to enable **early** and **cost-effective** detection of **Alzheimer’s Disease**. The project integrates **multi-modal medical data** while ensuring **interpretability**, **clinical trust**, and **real-world applicability**.
 
-## Overview
+![System Architecture](https://raw.githubusercontent.com/tharunkumardeveloper/Neurovision/main/architecture.png)
 
-NeuroVision CDSS is a comprehensive dashboard demonstrating an AI-powered clinical decision support system designed for early Alzheimer's disease detection. The system implements a tiered, multi-modal diagnostic approach that integrates clinical assessments, digital handwriting analysis, blood biomarkers, and structural MRI neuroimaging.
+## 💡 **Inspiration**
 
-## Key Features
+**Alzheimer’s Disease** is often diagnosed at a **late** stage, when **treatment options** become limited. Studies show that **brain changes** and **biological markers** appear years before **visible symptoms**, yet current diagnostic methods rely heavily on **single tests** that are either **expensive** or **insufficient**. This gap inspired us to design **NeuroVision**, focusing on **early detection**, **affordability**, and **clear explanations** that clinicians can understand and trust.
 
-### 🧠 Multi-Modal Assessment Pipeline
-- **Stage 1 - Primary Screening**: Clinical assessments (MMSE, CDR) and digital handwriting analysis
-- **Stage 2 - Advanced Diagnostics**: Blood biomarkers and MRI imaging for high-risk cases
+## 🔍 **What It Does**
 
-### 🤖 AI Model Integration
-- **Random Forest**: Blood biomarker pattern analysis
-- **CNN**: MRI neurodegeneration detection
-- **SVM**: Handwriting kinematic modeling
-- **Gradient Boosting**: Clinical feature interactions
-- **Meta-learner**: Ensemble fusion with cross-validation
+**NeuroVision** analyzes **clinical test results**, **digital handwriting patterns**, **biomarkers** and **genomic data**, and **MRI** brain scans to classify Alzheimer’s stages such as **Normal**, **Mild Cognitive Impairment (MCI)**, **Mild Alzheimer’s**, and **Moderate Alzheimer’s**. The system provides a **stage prediction**, **risk score**, and **confidence level**, along with **visual explanations** that highlight the factors influencing the decision.
 
-### 📊 Explainable AI (XAI)
-- **SHAP Values**: Feature importance visualization
-- **Grad-CAM**: MRI region attention heatmaps
-- **Model Confidence**: Individual and ensemble performance metrics
+![Flow Diagram](https://raw.githubusercontent.com/tharunkumardeveloper/Neurovision/main/Flow%20diagram.jpg)
 
-### 🎯 Clinical Decision Support
-- Real-time risk assessment with confidence intervals
-- Stage-based disease progression prediction
-- Evidence-based clinical recommendations
-- Comprehensive assessment progress tracking
+## 🛠️ **How We Built It**
 
-## Technology Stack
+The system was built using a **multi-modal ensemble machine learning architecture**. **Convolutional Neural Networks (ResNet50)** were used for **MRI analysis**, while **tree-based models** processed **biomarker** and **genomic data**. **Support Vector Machines (SVMs)** analyzed handwriting features, and **Gradient Boosting models** handled clinical data. A **logistic regression meta-learner** combined all predictions. To ensure transparency, **Explainable AI (XAI)** techniques such as **Grad-CAM** and **SHAP** were integrated. The pipeline was implemented using **Python**, **PyTorch**, and **scikit-learn**, and deployed through a **lightweight interactive dashboard**.
 
-- **Frontend**: Next.js 14, React 18, TypeScript
-- **Styling**: Tailwind CSS
-- **Charts**: Recharts
-- **Icons**: Lucide React
-- **Deployment**: Vercel-ready
+![Grad-CAM Visualization](https://raw.githubusercontent.com/tharunkumardeveloper/Neurovision/main/gradcam.png)
 
-## Dataset Integration
+## ⚠️ **Challenges We Ran Into**
 
-The NeuroVision CDSS now integrates with real clinical datasets:
+We faced challenges in integrating **heterogeneous datasets** with different formats and scales. Managing **class imbalance**, maintaining **model accuracy** while adding **explainability**, and ensuring **computational efficiency** for **low-resource healthcare environments** were key difficulties. Designing a solution that balances **technical performance** with **clinical interpretability** required careful experimentation and iteration.
 
-### 📊 **Available Datasets**
+![MRI Analysis](https://raw.githubusercontent.com/tharunkumardeveloper/Neurovision/main/MRI%20Analysis.png)
 
-1. **MRI Image Dataset** (`datasets/Image dataset/combined_images/`)
-   - Categories: NonDemented, VeryMildDemented, MildDemented, ModerateDemented
-   - ~60 images per category
-   - Used for: Structural brain analysis and CNN-based classification
+## 🏆 **Accomplishments That We’re Proud Of**
 
-2. **Handwriting Dataset** (`datasets/Handwriting Datset/offline/offline/`)
-   - Tasks: TASK_02 (Connect Dots), TASK_03 (Write Sentence), TASK_04 (Trace Circle), etc.
-   - Conditions: AD (Alzheimer's Disease), HC (Healthy Controls)
-   - ~36 images per task/condition
-   - Used for: Kinematic analysis and SVM-based feature extraction
+We successfully developed a **fully functional multi-modal AI system** that demonstrated **improved performance** over single-modality approaches. The integration of **Explainable AI** improved **transparency and trust**. We also built a **clinician-friendly prototype dashboard** and aligned the project with **SDG 3 – Good Health and Well-Being**, emphasizing accessible healthcare innovation.
 
-3. **Clinical Data** (`datasets/alzhei dataset/`, `datasets/other dataset/`)
-   - OASIS cross-sectional and longitudinal data
-   - Alzheimer's disease clinical assessments
-   - Used for: MMSE, CDR scores and demographic analysis
+## 📘 **What We Learned**
 
-4. **Plasma Biomarkers** (`datasets/Plasma/`)
-   - Plasma lipidomics data
-   - Used for: Aβ42/40, p-tau181, NFL biomarker simulation
+This project helped us understand the importance of **multi-modal learning**, **medical data preprocessing**, and **ethical AI design**. We learned how **explainability** plays a critical role in healthcare applications and how to design AI systems that consider **real-world clinical constraints**, not just theoretical accuracy.
 
-5. **Genetic Variants** (`datasets/ALZ_Variant Datset/`)
-   - APOE and other Alzheimer's risk variants
-   - Used for: Genetic risk factor analysis
+![Risk Prediction](https://raw.githubusercontent.com/tharunkumardeveloper/Neurovision/main/Risk%20Prediction.png)
 
-### 🔧 **Setup Instructions**
+## 🚀 **What’s Next for NeuroVision**
 
-1. **Copy Dataset Images to Public Folder**:
-   ```bash
-   # Copy your datasets folder to public/ for web access
-   cp -r datasets/ public/datasets/
-   ```
-
-2. **Dataset Structure**:
-   ```
-   public/datasets/
-   ├── Image dataset/combined_images/
-   │   ├── NonDemented/
-   │   ├── VeryMildDemented/
-   │   ├── MildDemented/
-   │   └── ModerateDemented/
-   └── Handwriting Datset/offline/offline/
-       ├── TASK_02/
-       │   ├── AD/
-       │   └── HC/
-       └── [other tasks...]
-   ```
-
-### 🎯 **Dataset Features**
-
-- **Real Patient Data**: All samples are from actual clinical studies
-- **Multi-Modal Integration**: Combines imaging, handwriting, clinical, and biomarker data
-- **Interactive Selection**: Users can browse and select specific patient samples
-- **Automated Analysis**: AI models process real data to generate authentic results
-- **Clinical Validation**: Results reflect actual disease patterns and biomarker correlations
-
-## Getting Started
-
-### Prerequisites
-- Node.js 18+ 
-- npm or yarn
-
-### Installation
-
-1. Clone the repository:
-```bash
-git clone <repository-url>
-cd neurovision-cdss
-```
-
-2. Install dependencies:
-```bash
-npm install
-```
-
-3. Run the development server:
-```bash
-npm run dev
-```
-
-4. Open [http://localhost:3000](http://localhost:3000) in your browser
-
-## Project Structure
-
-```
-neurovision-cdss/
-├── app/                          # Next.js app directory
-│   ├── globals.css              # Global styles
-│   ├── layout.tsx               # Root layout
-│   └── page.tsx                 # Main dashboard page
-├── components/                   # React components
-│   ├── assessments/             # Assessment modules
-│   │   ├── ClinicalAssessment.tsx
-│   │   ├── HandwritingAssessment.tsx
-│   │   ├── BiomarkerAssessment.tsx
-│   │   └── ImagingAssessment.tsx
-│   ├── Header.tsx               # Application header
-│   ├── PatientInfo.tsx          # Patient information display
-│   ├── AssessmentTabs.tsx       # Assessment navigation
-│   ├── RiskPrediction.tsx       # Risk scoring and predictions
-│   ├── ModelExplanation.tsx     # XAI visualizations
-│   └── PipelineView.tsx         # Multi-modal pipeline view
-├── public/                      # Static assets
-└── README.md                    # Project documentation
-```
-
-## Features Demonstration
-
-### 1. Patient Management
-- Patient information display
-- Assessment history tracking
-- Clinical visit management
-
-### 2. Clinical Assessment (Stage 1)
-- Mini-Mental State Examination (MMSE) scoring
-- Clinical Dementia Rating (CDR) evaluation
-- Real-time interpretation and risk stratification
-
-### 3. Digital Handwriting Analysis (Stage 1)
-- Tablet-based writing sample collection
-- Kinematic feature extraction (velocity, pressure, tremor)
-- Multi-language support for native script analysis
-
-### 4. Blood Biomarker Analysis (Stage 2)
-- Aβ42/40 ratio measurement
-- p-tau181 phosphorylated tau levels
-- Neurofilament light chain (NFL) quantification
-- Automated result interpretation
-
-### 5. MRI Structural Imaging (Stage 2)
-- DICOM file processing simulation
-- Hippocampal volume measurement
-- Cortical thickness analysis
-- Grad-CAM attention visualization
-
-### 6. AI Model Explanation
-- SHAP feature importance plots
-- Grad-CAM brain region heatmaps
-- Individual model confidence metrics
-- Ensemble composition visualization
-
-### 7. Clinical Decision Support
-- Multi-modal risk scoring (0-100%)
-- Disease stage prediction
-- Evidence-based recommendations
-- Assessment progress tracking
-
-## Clinical Workflow
-
-1. **Patient Registration**: Enter patient demographics and clinical history
-2. **Stage 1 Screening**: Complete MMSE/CDR and handwriting assessments
-3. **Risk Stratification**: AI determines need for Stage 2 evaluation
-4. **Stage 2 Assessment**: Blood biomarkers and MRI for high-risk cases
-5. **Final Prediction**: Ensemble model provides comprehensive risk assessment
-6. **Clinical Recommendations**: Evidence-based next steps and follow-up
-
-## Model Performance
-
-- **Overall Accuracy**: 88% for early Alzheimer's detection
-- **Detection Window**: 3-5 years before clinical onset
-- **Sensitivity**: 92% for MCI to AD progression
-- **Specificity**: 85% for normal aging vs. pathological decline
-
-## Deployment
-
-The application is configured for easy deployment on Vercel:
-
-```bash
-npm run build
-npm start
-```
-
-Or deploy directly to Vercel:
-```bash
-vercel deploy
-```
-
-## Contributing
-
-This is a demonstration project showcasing the NeuroVision CDSS concept. For production implementation, additional considerations include:
-
-- HIPAA compliance and data security
-- Clinical validation studies
-- Regulatory approval processes
-- Integration with existing EHR systems
-- Real-time model inference infrastructure
-
-## License
-
-This project is for demonstration purposes. Please ensure compliance with healthcare regulations and obtain appropriate approvals before clinical use.
-
-## Contact
-
-For questions about the NeuroVision CDSS project, please contact the development team.
+Plans include testing NeuroVision on larger and more **diverse datasets**, **improving patient-level data alignment**, and extending the system to support **longitudinal disease progression prediction**. We also aim to integrate the platform with **Electronic Health Records (EHRs)** and conduct **clinical pilot studies** to validate its effectiveness in real healthcare settings.
